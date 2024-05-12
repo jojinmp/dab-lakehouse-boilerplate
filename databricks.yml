@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=bundle_config_schema.json
+# This is a Databricks asset bundle definition for dab_boilerplate.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: dab_boilerplate
+
+artifacts:
+  default:
+    type: whl
+    build: poetry build
+    path: .
+
+include:
+  - resources/*.yml
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  dev:
+    # We use 'mode: development' to indicate this is a personal development copy:
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default
+    # - The 'development' mode is used for Delta Live Tables pipelines
+    mode: development
+    default: true
+    workspace:
+      host: DATABRICKS_HOST
+  # The 'prod' target, used for production deployment.
+  prod:
+    # We use 'mode: production' to indicate this is a production deployment.
+    # Doing so enables strict verification of the settings below.
+    mode: production
+    workspace:
+      host: DATABRICKS_HOST
+    run_as:
+      # need to create service principle and use here
+      # and in all jobs while running in production.
+      # we are using dev everywhere including cd.

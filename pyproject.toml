@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "dab-boilerplate"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10.12"
+pandas = "^2.2.1"
+requests = "^2.31.0"
+python-dotenv = "^1.0.1"
+pytest = "^8.2.0"
+databricks-connect = "14.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+punch-py = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+
+[tool.poetry.scripts]
+env_setup = "dab_boilerplate.env_setup.env_setup:main"
+bronze_layer = "dab_boilerplate.lakehouse.bronze.bronze_layer:main"
+silver_layer = "dab_boilerplate.lakehouse.silver.silver_layer:main"
+gold_layer = "dab_boilerplate.lakehouse.gold.gold_layer:main"

@@ -1,0 +1,61 @@
+name: DAB Boilerplate CI
+
+# Defines when the action will run.
+on:
+  pull_request:
+    branches:
+      - main
+
+
+# Defines the jobs to run
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.in-project true
+
+      - name: Install Dependencies
+        run: |
+          poetry install
+
+      - name: Run pre-commit hooks
+        run: poetry run pre-commit run --all-files
+
+      - name: Run Pytest
+        run: poetry run pytest
+
+      - name: Install Databricks CLI
+        run: poetry run curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Configure Databricks CLI
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          poetry run databricks configure --token <<EOF
+          $DATABRICKS_HOST
+          $DATABRICKS_TOKEN
+          EOF
+
+      - name: Replace DATABRICKS_HOST
+        run: |
+          sed -i "s|DATABRICKS_HOST|${{ secrets.DATABRICKS_HOST }}|g" databricks.yml
+
+
+      - name: Run DAB validation Script
+        run: |
+          poetry run databricks bundle validate > /dev/null 2>&1

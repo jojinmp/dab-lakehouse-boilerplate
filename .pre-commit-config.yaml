@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0  # Use the latest release from their GitHub page
+    hooks:
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+
+  - repo: https://github.com/psf/black
+    rev: 24.4.2  # Use the latest release from their GitHub page
+    hooks:
+      - id: black
+        language_version: python3.10.12  # Ensure this matches your environment
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0  # Use the latest release from their GitHub page
+    hooks:
+      - id: flake8

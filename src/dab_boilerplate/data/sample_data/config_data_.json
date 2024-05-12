@@ -1,0 +1,20 @@
+[
+    {
+        "sensor_name": "temp_sensor_A",
+        "sensor_id": 1001,
+        "sensor_type": "Temperature",
+        "unit": "Celsius"
+    },
+    {
+        "sensor_name": "temp_sensor_B",
+        "sensor_id": 1002,
+        "sensor_type": "Temperature",
+        "unit": "Celsius"
+    },
+    {
+        "sensor_name": "temp_sensor_C",
+        "sensor_id": 1003,
+        "sensor_type": "Temperature",
+        "unit": "Celsius"
+    }
+]

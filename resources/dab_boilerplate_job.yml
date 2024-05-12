@@ -1,0 +1,59 @@
+# The main job for dab_boilerplate.
+resources:
+  jobs:
+    dab_boilerplate_job:
+      name: dab_boilerplate_job
+
+      #schedule:
+        # Run every day at 8:37 AM
+        #quartz_cron_expression: '44 37 8 * * ?'
+        #timezone_id: Europe/Amsterdam
+
+      #email_notifications:
+        #on_failure:
+          #- emailid@server.com
+
+      tasks:
+        - task_key: env_setup
+          job_cluster_key: job_cluster
+          python_wheel_task:
+            package_name: dab_boilerplate
+            entry_point: env_setup
+          libraries:
+            - whl: ../dist/dab_boilerplate-0.1.0-py3-none-any.whl
+
+        - task_key: bronze_layer
+          job_cluster_key: job_cluster
+          depends_on:
+            - task_key: env_setup
+          python_wheel_task:
+            package_name: dab_boilerplate
+            entry_point: bronze_layer
+          libraries:
+            - whl: ../dist/dab_boilerplate-0.1.0-py3-none-any.whl
+
+        - task_key: silver_layer
+          job_cluster_key: job_cluster
+          depends_on:
+            - task_key: bronze_layer
+          python_wheel_task:
+            package_name: dab_boilerplate
+            entry_point: silver_layer
+          libraries:
+            - whl: ../dist/dab_boilerplate-0.1.0-py3-none-any.whl
+
+        - task_key: gold_layer
+          job_cluster_key: job_cluster
+          depends_on:
+            - task_key: silver_layer
+          python_wheel_task:
+            package_name: dab_boilerplate
+            entry_point: gold_layer
+          libraries:
+            - whl: ../dist/dab_boilerplate-0.1.0-py3-none-any.whl
+
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            spark_version: 13.3.x-scala2.12
+            node_type_id: "Standard_F4s"  # Small node type for Azure
