@@ -38,8 +38,9 @@ Current version: 0.1.0
     ```
 9. Update databricks.yml with your own cluster id.
 
-10. To deploy a development copy of this project, type:
+10. To validate deploy a development copy of this project:
     ```
+    $ databricks bundle validate
     $ databricks bundle deploy --target dev
     ```
     (Note that "dev" is the default target, so the `--target` parameter
@@ -50,15 +51,10 @@ Current version: 0.1.0
     `[dev yourname] dab_boilerplate_job` to your workspace.
     You can find that job by opening your workpace and clicking on **Workflows**.
 
-11. Similarly, to deploy a production copy, type:
+11. Similarly, to deploy a production copy:
    ```
    $ databricks bundle deploy --target prod
    ```
-
-   Note that the default job from the template has a schedule that runs every day
-   (defined in resources/dab_boilerplate_job.yml). The schedule
-   is paused when deploying in development mode (see
-   https://docs.databricks.com/dev-tools/bundles/deployment-modes.html).
 
 12. To run a job or pipeline, use the "run" command:
    ```

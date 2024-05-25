@@ -1,6 +1,7 @@
 from dab_boilerplate.core.spark_common import SparkCommon
 from dab_boilerplate.core.constants import Constants
 from dab_boilerplate.db.common_functions import CommonFunctions
+import dab_boilerplate.core.logger  # noqa: F401
 import logging
 from pyspark.sql.functions import col, current_timestamp
 from pyspark.sql.types import IntegerType, FloatType, TimestampType

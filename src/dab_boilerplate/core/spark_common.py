@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 import logging
 from databricks.connect import DatabricksSession
 import os
+import dab_boilerplate.core.logger  # noqa: F401
 
 
 def get_dbutils(spark: SparkSession):
